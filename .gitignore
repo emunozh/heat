@@ -13,3 +13,7 @@
 # vim swap files
 *.swp
 *~
+
+# output from examples
+./R/TABLES/
+./R/FIGURE/

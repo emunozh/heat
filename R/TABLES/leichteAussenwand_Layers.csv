@@ -1,4 +1,4 @@
-"","name","Thicknes","Conductivity","Diffusion","H","Sd"
+"","Layer","Thicknes","Conductivity","Diffusion","H","Sd"
 "1","Vorgehängte Außenschale",0.02,NA,NA,NA,0
 "2","Belüftete Luftschicht",0.03,NA,NA,NA,0
 "3","Spanplatte V100",0.019,0.127,100,0.149606299212598,1.9

@@ -1,8 +1,8 @@
 # R files
-.Rhistory
-.RData
-.Rproj
-.Rproj.user
+*.Rhistory
+*.RData
+*.Rproj
+*.Rproj.user
 
 # Example code in package build process
 *-Ex.R
@@ -13,3 +13,7 @@
 # vim swap files
 *.swp
 *~
+
+# output from examples
+TABLES/
+FIGURE/

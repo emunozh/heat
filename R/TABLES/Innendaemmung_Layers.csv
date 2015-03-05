@@ -1,4 +1,4 @@
-"","name","Thicknes","Conductivity","Diffusion","H","Sd"
+"","Layer","Thicknes","Conductivity","Diffusion","H","Sd"
 "1","Außenputz",0.02,1,40,0.02,0.8
 "2","Mauerwerk",0.24,0.4,8,0.6,1.92
 "3","EPS-Dämmstoff",0.04,0.04,20,1,0.8

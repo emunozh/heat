@@ -6,6 +6,13 @@ aim is to create an R package out of these two repositories:
 1. [EnergyCalculatoR](https://github.com/emunozh/EnergyCalculatoR)
 2. [UvalR](https://github.com/emunozh/UvalR)
 
+## How to build this package from source
+
+```
+R CMD build heat
+R CMD INSTALL heat_1.0.tar.gz
+R CMD check heat
+```
 
 # EnergyCalculatoR
 
@@ -48,7 +55,7 @@ barplot(Qhm)
 Notice the parameter `Output.Type = "Month"`. The default value of this
 parameter is `Output.Type = "Year"`. The default is set to `Year`.
 
-![fig: monthly heat demand](Examples/MonthlyHeatDemand.png)
+![fig: monthly heat demand](/energy_calculator/Examples/MonthlyHeatDemand.png)
 
 ### (2) Computing the heat demand for a set of buildings.
 
@@ -306,5 +313,6 @@ component in [W/m2K].
 
 It will also write two figures in folder `./FIGURES/`
 
-![fig: external data temperatures](./uvalr/FIGURES/ExternalData_temperature.png)
-![fig: external data pressure](./uvalr/FIGURES/ExternalData_pressure.png)
+![fig: external data temperatures](/uvalr/FIGURES/ExternalData_temperature.png)
+
+![fig: external data pressure](/uvalr/FIGURES/ExternalData_pressure.png)
