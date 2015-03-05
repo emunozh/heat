@@ -14,6 +14,5 @@
 *.swp
 *~
 
-# output from examples
-./R/TABLES/
-./R/FIGURE/
+# include figures for documentation
+!FIGURES/

@@ -6,6 +6,9 @@ aim is to create an R package out of these two repositories:
 1. [EnergyCalculatoR](https://github.com/emunozh/EnergyCalculatoR)
 2. [UvalR](https://github.com/emunozh/UvalR)
 
+**!! The Documentation below refers to the repositories mentioned above not the
+package on this repository!!**
+
 ## How to build this package from source
 
 ```
@@ -55,7 +58,7 @@ barplot(Qhm)
 Notice the parameter `Output.Type = "Month"`. The default value of this
 parameter is `Output.Type = "Year"`. The default is set to `Year`.
 
-![fig: monthly heat demand](/energy_calculator/Examples/MonthlyHeatDemand.png)
+![fig: monthly heat demand](./FIGURES/MonthlyHeatDemand.png)
 
 ### (2) Computing the heat demand for a set of buildings.
 
@@ -93,7 +96,7 @@ Heat.Demand[i] <- temp.2$Qhs
 barplot(Heat.Demand)
 ```
 
-![fig: uval](./energy_calculator/Examples/Uval.png)
+![fig: uval](./FIGURES/Uval.png)
 
 ### (3) Computing the effect of building orientation.
 
@@ -123,7 +126,7 @@ doh + geom_line(colour = "red", size = 1)  +
     scale_x_continuous(breaks=seq(0, 360, 15))
 ```
 
-![fig: orientation ggplot](./energy_calculator/Examples/Orientation_ggplot.png)
+![fig: orientation ggplot](./FIGURES/Orientation_ggplot.png)
 
 # UvalR
 
@@ -194,8 +197,8 @@ component in [W/m2K]
 
 It will also write two figures in folder `./FIGURES/`
 
-![fig: reinforced concrete temperature](./uvalr/FIGURES/ReinforcedConcrete_temperature.png)
-![fig: reinforced concrete pressure](./uvalr/FIGURES/ReinforcedConcrete_pressure.png)
+![fig: reinforced concrete temperature](./FIGURES/ReinforcedConcrete_temperature.png)
+![fig: reinforced concrete pressure](./FIGURES/ReinforcedConcrete_pressure.png)
 
 ### (2) Light outside wall (Leichte Außenwand).
 
@@ -222,7 +225,7 @@ Layers <- data.frame(
   Thicknes = c(0.02, 0.03, 0.019, 0.16, 0.00005, 0.019),
   Conductivity = c(NaN, NaN, 0.127, 0.04, NaN, 0.127),
   Diffusion = c(NaN, NaN, 100, 1, 40000, 50))
-    
+
 CalculateUval(Layers, k.t_e=-5,
               plottemp=TRUE, plotpress=TRUE,
               name="leichteAussenwand_", writetab=TRUE)
@@ -233,8 +236,8 @@ CalculateUval(Layers, k.t_e=-5,
 
    It will also write two figures in folder `./FIGURES/`
 
-![fig: leichte aussenwand temperature](./uvalr/FIGURES/leichteAussenwand_temperature.png)
-![fig: leichte aussenwand pressure](./uvalr/FIGURES/leichteAussenwand_pressure.png)
+![fig: leichte aussenwand temperature](./FIGURES/leichteAussenwand_temperature.png)
+![fig: leichte aussenwand pressure](./FIGURES/leichteAussenwand_pressure.png)
 
 ### (3) Internal insulation (Innendämmung).
 
@@ -272,8 +275,8 @@ component in [W/m2K]
 
 It will also write two figures in folder `./FIGURES/`
 
-![fig: innen daemung temperatures](./uvalr/FIGURES/Innendaemmung_temperature.png)
-![fig: innen daemung pressure](./uvalr/FIGURES/Innendaemmung_pressure.png)
+![fig: innen daemung temperatures](./FIGURES/Innendaemmung_temperature.png)
+![fig: innen daemung pressure](./FIGURES/Innendaemmung_pressure.png)
 
 ### (4) Using an external data file.
 
@@ -313,6 +316,6 @@ component in [W/m2K].
 
 It will also write two figures in folder `./FIGURES/`
 
-![fig: external data temperatures](/uvalr/FIGURES/ExternalData_temperature.png)
+![fig: external data temperatures](./FIGURES/ExternalData_temperature.png)
 
-![fig: external data pressure](/uvalr/FIGURES/ExternalData_pressure.png)
+![fig: external data pressure @ UvalR](./FIGURES/ExternalData_pressure.png)

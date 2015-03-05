@@ -3,9 +3,6 @@
 \name{getLayers}
 \alias{getLayers}
 \title{getLayers}
-\source{
-DIN 4108-3
-}
 \usage{
 getLayers(material, thickness, materialsData = FALSE)
 }
@@ -23,16 +20,16 @@ Layers
 Function to generate layers based on an external data source
 }
 \examples{
-MaterialsToget <- c(
-  "Mineralischer_Edelputz",
-  "Porensinterbeton_mit_Quarzsand_900",
-  "EPS_040_30",
-  "Holzwolle_Leichtbauplatten_Heraklith_Platten__Magnesia__390",
-  "Mineralischer_Armierungsputz"
-  )
+Materials <- c(
+    "Mineralischer_Edelputz",
+    "Porensinterbeton_mit_Quarzsand_900",
+    "EPS_040_30",
+    "Holzwolle_Leichtbauplatten_Heraklith_Platten__Magnesia__390",
+    "Mineralischer_Armierungsputz"
+    )
 
 Thicknes = c(0.02,0.24,0.04,0.025,0.015)
-Layers <- getLayers(MaterialsToget, Thicknes)
+Layers <- getLayers(Materials, Thicknes)
 }
 \author{
 M. Estebna Munoz H.
