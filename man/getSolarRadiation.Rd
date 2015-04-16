@@ -4,10 +4,10 @@
 \alias{getSolarRadiation}
 \title{getSolarRadiation}
 \usage{
-getSolarRadiation(Building.Orientation)
+getSolarRadiation(building_orientation)
 }
 \arguments{
-\item{Building.Orientation}{orientation of the building in degrees}
+\item{building_orientation}{orientation of the building in degrees}
 }
 \value{
 Climate.I radiation levels

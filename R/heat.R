@@ -14,36 +14,36 @@ heat <- function(x, ...) UseMethod("heat")
 #' @param building (optional, default = FALSE) use a user define building
 #' data file. 
 #' @param climate (optional, default = FALSE) use a specific climate file.
-#' @param General.Name (optional, default = "No Name") if this value is not
+#' @param general_name (optional, default = "No Name") if this value is not
 #' specifically define the function will load the values from the building data
 #' file.
-#' @param General.PlotOption (optional, default = FALSE) 
-#' @param General.PlotName (optional, default="No Name")
-#' @param Building.Uwb (optional, default = FALSE) 
-#' @param Building.Windows (optional, default = FALSE)
-#' @param Building.UvalW (optional, default = FALSE)
-#' @param Building.UvalR (optional, default = FALSE)
-#' @param Building.UvalWindow (optional, default = FALSE)                   
-#' @param Building.Dim (optional, default = c(FALSE,FALSE))
-#' @param Building.h (optional, default = FALSE)
-#' @param Building.AirCRate (optional, default = FALSE)
-#' @param Building.Ti (optional, default = FALSE)
-#' @param Building.qi (optional, default = FALSE)
-#' @param Building.Orientation (optional, default = FALSE)
-#' @param Building.StorageCapacity (optional, default = FALSE)
-#' @param Building.RoofSlope (optional, default = FALSE)
-#' @param Output.Type (optional, default = "Year")
+#' @param general_ploto (optional, default = FALSE) 
+#' @param general_plotn (optional, default="No Name")
+#' @param building_uwb (optional, default = FALSE) 
+#' @param building_windows (optional, default = FALSE)
+#' @param building_uvalw (optional, default = FALSE)
+#' @param building_uvalr (optional, default = FALSE)
+#' @param building_uvalwindow (optional, default = FALSE)                   
+#' @param building_dim (optional, default = c(FALSE,FALSE))
+#' @param building_h (optional, default = FALSE)
+#' @param building_aircrate (optional, default = FALSE)
+#' @param building_ti (optional, default = FALSE)
+#' @param building_qi (optional, default = FALSE)
+#' @param building_orientation (optional, default = FALSE)
+#' @param building_storagecapacity (optional, default = FALSE)
+#' @param building_roofslope (optional, default = FALSE)
+#' @param output_type (optional, default = "Year")
 #' @examples
 #' # Use the default values to compute the heat demand of a building
-#' Climate.MonthsNames <- c("January","February","March","April",
+#' climate_month_names <- c("January","February","March","April",
 #'                          "May","June","July","August",
 #'                          "September","October","November","December")
 #' 
-#' model <- heat(Building.Orientation = 0,
-#'               Output.Type = "Month")
+#' model <- heat(building_orientation = 0,
+#'               output_type = "Month")
 #' Qhm <- model$Qhm
 #' barplot(Qhm,
-#'         names.arg=Climate.MonthsNames,
+#'         names.arg=climate_month_names,
 #'         main = "Monthly Heat Demand",
 #'         ylab =  "head Demand [kWh]")
 #' 
@@ -68,9 +68,9 @@ heat <- function(x, ...) UseMethod("heat")
 #'     UvalW <- U.Values[1,i]
 #'     UvalR <- U.Values[2,i]
 #'     UvalWindow <- U.Values[3,i]
-#'     temp.2 <- heat(Building.UvalW = UvalW, 
-#'                     Building.UvalR = UvalR, 
-#'                     Building.UvalWindow = UvalWindow)
+#'     temp.2 <- heat(building_uvalw = UvalW, 
+#'                     building_uvalr = UvalR, 
+#'                     building_uvalwindow = UvalWindow)
 #'     Heat.Demand[i] <- temp.2$Qhs
 #' }
 #' 
@@ -102,12 +102,12 @@ heat <- function(x, ...) UseMethod("heat")
 #'     AirCRate <- Param.Values[1,i]
 #'     Ti <- Param.Values[2,i]
 #'     qi <- Param.Values[3,i]
-#'     temp.2 <- heat(Building.AirCRate = AirCRate, 
-#'                    Building.Ti = Ti, 
-#'                    Building.qi = qi,
-#'                    Building.UvalW = UvalW, 
-#'                    Building.UvalR = UvalR, 
-#'                    Building.UvalWindow = UvalWindow)
+#'     temp.2 <- heat(building_aircrate = AirCRate, 
+#'                    building_ti = Ti, 
+#'                    building_qi = qi,
+#'                    building_uvalw = UvalW, 
+#'                    building_uvalr = UvalR, 
+#'                    building_uvalwindow = UvalWindow)
 #'     Heat.Demand[i] <- temp.2$Qhs
 #' }
 #' 
@@ -126,11 +126,11 @@ heat <- function(x, ...) UseMethod("heat")
 #' Heat.Gains.Solar = rep(0,length(iter))
 #' Irradiation.Sum = rep(0,length(iter))
 #' 
-#' Building.Dim <- c(12,6) 
+#' building_dim <- c(12,6) 
 #' for (i in 1:length(iter)){
 #'     BO <- iter[i]
-#'     temp.2 <- heat(Building.Orientation = BO,
-#'                    Building.Dim = Building.Dim)
+#'     temp.2 <- heat(building_orientation = BO,
+#'                    building_dim = building_dim)
 #'     Heat.Demand[i] <- temp.2$Qhs
 #'     Heat.Gains.Solar[i] <- temp.2$Ss
 #'     Irradiation.Sum[i] <- temp.2$Ti
@@ -147,50 +147,51 @@ heat <- function(x, ...) UseMethod("heat")
 #'     scale_x_continuous(breaks=seq(0, 360, 15))
 #' 
 #' @author M. Esteban Munoz H.
+#TODO: change case in examples
 #TODO: import examples 
 #TODO: proof data input
 heat.default <- function(
         building = FALSE,
         climate = FALSE,
-        General.Name = "No Name", 
-        General.PlotOption = FALSE, 
-        General.PlotName = "No Name",
-        Building.Uwb = FALSE, 
-        Building.Windows = FALSE,                           
-        Building.UvalW = FALSE, 
-        Building.UvalR = FALSE, 
-        Building.UvalWindow = FALSE,                           
-        Building.Dim = c(FALSE,FALSE), 
-        Building.h = FALSE, 
-        Building.AirCRate = FALSE, 
-        Building.Ti = FALSE, 
-        Building.qi = FALSE, 
-        Building.Orientation = FALSE, 
-        Building.StorageCapacity = FALSE, 
-        Building.RoofSlope = FALSE,
-        Output.Type = "Year")
+        general_name = "No Name", 
+        general_ploto = FALSE, 
+        general_plotn = "No Name",
+        building_uwb = FALSE, 
+        building_windows = FALSE,                           
+        building_uvalw = FALSE, 
+        building_uvalr = FALSE, 
+        building_uvalwindow = FALSE,                           
+        building_dim = c(FALSE,FALSE), 
+        building_h = FALSE, 
+        building_aircrate = FALSE, 
+        building_ti = FALSE, 
+        building_qi = FALSE, 
+        building_orientation = FALSE, 
+        building_storagecapacity = FALSE, 
+        building_roofslope = FALSE,
+        output_type = "Year")
     {
 
     model <- heatest(
         building = building,
         climate = climate,
-        General.Name = General.Name, 
-        General.PlotOption = General.PlotOption, 
-        General.PlotName = General.PlotName,
-        Building.Uwb = Building.Uwb, 
-        Building.Windows = Building.Windows, 
-        Building.UvalW = Building.UvalW, 
-        Building.UvalR = Building.UvalR, 
-        Building.UvalWindow = Building.UvalWindow,                     
-        Building.Dim = Building.Dim, 
-        Building.h = Building.h, 
-        Building.AirCRate = Building.AirCRate, 
-        Building.Ti = Building.Ti, 
-        Building.qi = Building.qi, 
-        Building.Orientation = Building.Orientation, 
-        Building.StorageCapacity = Building.StorageCapacity, 
-        Building.RoofSlope = Building.RoofSlope,
-        Output.Type = Output.Type)
+        general_name = general_name, 
+        general_ploto = general_ploto, 
+        general_plotn = general_plotn,
+        building_uwb = building_uwb, 
+        building_windows = building_windows, 
+        building_uvalw = building_uvalw, 
+        building_uvalr = building_uvalr, 
+        building_uvalwindow = building_uvalwindow,                     
+        building_dim = building_dim, 
+        building_h = building_h, 
+        building_aircrate = building_aircrate, 
+        building_ti = building_ti, 
+        building_qi = building_qi, 
+        building_orientation = building_orientation, 
+        building_storagecapacity = building_storagecapacity, 
+        building_roofslope = building_roofslope,
+        output_type = output_type)
     
     class(model) <- "heat"
 
@@ -200,23 +201,23 @@ heat.default <- function(
 heatest <- function(
     building = FALSE,
     climate = FALSE,
-    General.Name = "No Name", 
-    General.PlotOption = FALSE, 
-    General.PlotName = "No Name",
-    Building.Uwb = FALSE, 
-    Building.Windows = FALSE,                           
-    Building.UvalW = FALSE, 
-    Building.UvalR = FALSE, 
-    Building.UvalWindow = FALSE,                           
-    Building.Dim = c(FALSE,FALSE), 
-    Building.h = FALSE, 
-    Building.AirCRate = FALSE, 
-    Building.Ti = FALSE, 
-    Building.qi = FALSE, 
-    Building.Orientation = FALSE, 
-    Building.StorageCapacity = FALSE, 
-    Building.RoofSlope = FALSE,
-    Output.Type = "Year")
+    general_name = "No Name", 
+    general_ploto = FALSE, 
+    general_plotn = "No Name",
+    building_uwb = FALSE, 
+    building_windows = FALSE,                           
+    building_uvalw = FALSE, 
+    building_uvalr = FALSE, 
+    building_uvalwindow = FALSE,                           
+    building_dim = c(FALSE,FALSE), 
+    building_h = FALSE, 
+    building_aircrate = FALSE, 
+    building_ti = FALSE, 
+    building_qi = FALSE, 
+    building_orientation = FALSE, 
+    building_storagecapacity = FALSE, 
+    building_roofslope = FALSE,
+    output_type = "Year")
     {
     ## input data:
     
@@ -254,25 +255,25 @@ heatest <- function(
     
     # uncomment this line for de-bug
     #load("./Data/BuildingDataDBug")
-    #Building.Orientation <- 1
+    #building_orientation <- 1
     
     ## Check input data
-    if (General.Name        == "No Name") {General.Name        <- T.General.Name} 
-    if (General.PlotOption  == FALSE)     {General.PlotOption  <- T.General.PlotOption} 
-    if (General.PlotName    == "No Name") {General.PlotName    <- T.General.PlotName}
-    if (Building.Uwb        == FALSE)     {Building.Uwb        <- T.Building.Uwb}
-    if (Building.Windows    == FALSE)     {Building.Windows    <- T.Building.Windows}                           
-    if (Building.UvalW      == FALSE)     {Building.UvalW      <- T.Building.UvalW}
-    if (Building.UvalR      == FALSE)     {Building.UvalR      <- T.Building.UvalR}
-    if (Building.UvalWindow == FALSE)     {Building.UvalWindow <- T.Building.UvalWindow}                           
-    if (Building.Dim[1]     == FALSE)     {Building.Dim        <- T.Building.Dim}
-    if (Building.h          == FALSE)     {Building.h          <- T.Building.h}
-    if (Building.AirCRate   == FALSE)     {Building.AirCRate   <- T.Building.AirCRate} 
-    if (Building.Ti         == FALSE)     {Building.Ti         <- T.Building.Ti}
-    if (Building.qi         == FALSE)     {Building.qi         <- T.Building.qi}
-    if (Building.Orientation     == FALSE){Building.Orientation<- T.Building.Orientation} 
-    if (Building.StorageCapacity == FALSE){Building.StorageCapacity<-T.Building.StorageCapacity}
-    if (Building.RoofSlope       == FALSE){Building.RoofSlope  <- T.Building.RoofSlope}
+    if (general_name        == "No Name") {general_name        <- T.general_name} 
+    if (general_ploto  == FALSE)     {general_ploto  <- T.general_ploto} 
+    if (general_plotn    == "No Name") {general_plotn    <- T.general_plotn}
+    if (building_uwb        == FALSE)     {building_uwb        <- T.building_uwb}
+    if (building_windows    == FALSE)     {building_windows    <- T.building_windows}                           
+    if (building_uvalw      == FALSE)     {building_uvalw      <- T.building_uvalw}
+    if (building_uvalr      == FALSE)     {building_uvalr      <- T.building_uvalr}
+    if (building_uvalwindow == FALSE)     {building_uvalwindow <- T.building_uvalwindow}                           
+    if (building_dim[1]     == FALSE)     {building_dim        <- T.building_dim}
+    if (building_h          == FALSE)     {building_h          <- T.building_h}
+    if (building_aircrate   == FALSE)     {building_aircrate   <- T.building_aircrate} 
+    if (building_ti         == FALSE)     {building_ti         <- T.building_ti}
+    if (building_qi         == FALSE)     {building_qi         <- T.building_qi}
+    if (building_orientation     == FALSE){building_orientation<- T.building_orientation} 
+    if (building_storagecapacity == FALSE){building_storagecapacity<-T.building_storagecapacity}
+    if (building_roofslope       == FALSE){building_roofslope  <- T.building_roofslope}
     
     ##################
     # (2) Imported Data <load>
@@ -296,7 +297,7 @@ heatest <- function(
     # Hts  --> Specific transmission losses
 
     # Get the radiation levels for this building
-    Climate.I <- getSolarRadiation(Building.Orientation)
+    Climate.I <- getSolarRadiation(building_orientation)
 
     ##################
     ## Heat gains Qg
@@ -304,8 +305,8 @@ heatest <- function(
     
     ##internal gains Si
     # heated area An
-    Building.An <- Building.Dim[1]*Building.Dim[2]*Building.h/3
-    Heat.gains.Si <- Building.qi * Building.An
+    Building.An <- building_dim[1]*building_dim[2]*building_h/3
+    Heat.gains.Si <- building_qi * Building.An
     
     ##monthly solar heat flows Ss
     # Ss(M) average monthly solar heat flow [W]
@@ -313,10 +314,10 @@ heatest <- function(
     # A(s,j) actual collector surface [m²]
     # J orientation (direction and down-grade to vertical)
     Heat.gains.Ss <-
-    Climate.I$north*(Building.Dim[1]*Building.h*Building.Windows) +
-    Climate.I$west *(Building.Dim[2]*Building.h*Building.Windows) +
-    Climate.I$south*(Building.Dim[1]*Building.h*Building.Windows) +
-    Climate.I$east *(Building.Dim[2]*Building.h*Building.Windows)
+    Climate.I$north*(building_dim[1]*building_h*building_windows) +
+    Climate.I$west *(building_dim[2]*building_h*building_windows) +
+    Climate.I$south*(building_dim[1]*building_h*building_windows) +
+    Climate.I$east *(building_dim[2]*building_h*building_windows)
     
     ##Heat gains Qg
     #0,024 kWh = 1 Wd
@@ -333,21 +334,21 @@ heatest <- function(
     # AirCRate = air change rate [h-1]
     # V volume of air in heated building (according to EnEV it obtains V = 0,8* Ve)
     # pL* CPL heat storage capacity of air = 0,34 [Wh/(m²K)]
-    Building.Ve <- Building.Dim[1]*Building.Dim[2]*Building.h
+    Building.Ve <- building_dim[1]*building_dim[2]*building_h
     Building.V <- 0.8 * Building.Ve
     Constant.plCpl = 0.34
-    Heat.loss.Hv <- Building.AirCRate * Building.V * Constant.plCpl;
+    Heat.loss.Hv <- building_aircrate * Building.V * Constant.plCpl;
     
     ##thermal bridge addition
     # Uwb correction value for thermal bridges [W/m²K]
     # A total heat transmitting building envelope [m²]
-    Building.A.Roof  <- 2*(Building.Dim[2]*((Building.Dim[1]/2)/cos(Building.RoofSlope*pi/180)))
-    Building.A.Wall.1 <- Building.Dim[1]*Building.h
-    Building.A.Wall.2 <- Building.Dim[2]*Building.h
-    Building.A.Window <- Building.A.Wall.1 * Building.Windows * 2 + Building.A.Wall.2 * Building.Windows * 2
-    # Building.A.Slab = Building.Dim[1] * Building.Dim[2]
+    Building.A.Roof  <- 2*(building_dim[2]*((building_dim[1]/2)/cos(building_roofslope*pi/180)))
+    Building.A.Wall.1 <- building_dim[1]*building_h
+    Building.A.Wall.2 <- building_dim[2]*building_h
+    Building.A.Window <- Building.A.Wall.1 * building_windows * 2 + Building.A.Wall.2 * building_windows * 2
+    # Building.A.Slab = building_dim[1] * building_dim[2]
     Building.A <- 2*Building.A.Wall.1 + 2*Building.A.Wall.2 + Building.A.Roof
-    Heat.loss.Hwb <- Building.Uwb * Building.A
+    Heat.loss.Hwb <- building_uwb * Building.A
     
     ##transmission losses Ht
     # Temperature correction factor Fx
@@ -379,11 +380,11 @@ heatest <- function(
     # Htfh Specific transmission heat loss by building parts with integrated panel heating [W/K]
     # Ht = sum (U) * sum (A) + Hu + Ls + Hwb + Htfh
     Heat.loss.Htu <-
-        (((2*Building.A.Wall.1*(1-Building.Windows) + 
-        2*Building.A.Wall.2*(1-Building.Windows))) * 
-        Building.UvalW) + 
-        (Building.A.Roof * Building.UvalR) + 
-        (Building.A.Window * Building.UvalWindow)
+        (((2*Building.A.Wall.1*(1-building_windows) + 
+        2*Building.A.Wall.2*(1-building_windows))) * 
+        building_uvalw) + 
+        (Building.A.Roof * building_uvalr) + 
+        (Building.A.Window * building_uvalwindow)
     Heat.loss.Ht <- Heat.loss.Htu + Heat.loss.Hu + Heat.loss.Ls + Heat.loss.Hwb + Heat.loss.Htfh
     
     #specific total heat loss (transmission and ventilation heat losses;HT+HV) [W/K] H
@@ -394,7 +395,7 @@ heatest <- function(
     # H(M) specific total heat loss (transmission and ventilation heat losses;HT+HV) [W/K]
     # Ti-Te(M) difference between internal and ambient temperature [K]
     # t(M) number of the days in a particular month [d/M]
-    Heat.loss.Ql <- 0.024 * Heat.loss.H * (Building.Ti - Climate.Te) * Climate.t
+    Heat.loss.Ql <- 0.024 * Heat.loss.H * (building_ti - Climate.Te) * Climate.t
     
     ##################
     ## Monthly heat demand Qh
@@ -403,7 +404,7 @@ heatest <- function(
     # Ql(M) sum of monthly heat loss due to transmission and ventilation [kWh/M]
     # Qg(M) sum of monthly heat gains [kWh/M]
     # n(M) monthly utilization factor for the gains [-]
-    Heat.demand.Thermal = Building.StorageCapacity * Building.Ve / Heat.loss.H
+    Heat.demand.Thermal = building_storagecapacity * Building.Ve / Heat.loss.H
     Heat.demand.a = 1 + Heat.demand.Thermal/16
     Heat.demand.y <- Heat.gains.Qg/Heat.loss.Ql
     
@@ -433,13 +434,13 @@ heatest <- function(
     
     ## Result
     #TODO: format output as list
-    if (Output.Type == "Year"){
+    if (output_type == "Year"){
         result = data.frame(
         Ti = Total.Irradiation,
         Ss = Heat.gains.Ss.sum, 
         Qhs = Heat.demand.Qhs, 
         Hts = Heat.demand.Hts)
-    } else if (Output.Type == "Month"){
+    } else if (output_type == "Month"){
         result = data.frame(
         Qhm = Heat.demand.Qhm)
     }
@@ -451,56 +452,56 @@ heatest <- function(
 #' @description
 #' Computes the solar radiation of the building based on its orientation
 #'
-#' @param Building.Orientation orientation of the building in degrees
+#' @param building_orientation orientation of the building in degrees
 #' @return Climate.I radiation levels 
 #' @author M. Estebna Munoz H.
 #TODO: make example 
-getSolarRadiation <- function(Building.Orientation){
+getSolarRadiation <- function(building_orientation){
   
   ## Solar radiation matrix
   # it is easier to change the radiation values that to rotate the building :)
   if (
-    Building.Orientation == 0 || 
-    Building.Orientation == 180 || 
-    Building.Orientation == 360
+    building_orientation == 0 || 
+    building_orientation == 180 || 
+    building_orientation == 360
     ){
     new.Orientation <- c("north", "west", "south","east")
     temp.rectangular <- TRUE
   } else if (
-    Building.Orientation == 90 ||
-    Building.Orientation == 270
+    building_orientation == 90 ||
+    building_orientation == 270
     ){
     new.Orientation <- c("west", "south","east","north")
     temp.rectangular <- TRUE
   } else if (
-    Building.Orientation > 0 &&
-    Building.Orientation < 90
+    building_orientation > 0 &&
+    building_orientation < 90
     ){
-    temp.b <- (Building.Orientation-0)/90
+    temp.b <- (building_orientation-0)/90
     new.Orientation <- data.frame(A=c("north","west","south","east"), 
                                   B=c("west","south","east","north" ))
     temp.rectangular <- FALSE
   } else if (
-    Building.Orientation > 90 &&
-    Building.Orientation < 180
+    building_orientation > 90 &&
+    building_orientation < 180
     ){
-    temp.b <- (Building.Orientation-90)/90
+    temp.b <- (building_orientation-90)/90
     new.Orientation <- data.frame(A=c("west","south","east","north"), 
                                   B=c("south","east","north","west"))
     temp.rectangular <- FALSE
   } else if (
-    Building.Orientation > 180 &&
-    Building.Orientation < 270
+    building_orientation > 180 &&
+    building_orientation < 270
     ){
-    temp.b <- (Building.Orientation-180)/90
+    temp.b <- (building_orientation-180)/90
     new.Orientation <- data.frame(A=c("south","east","north","west"), 
                                   B=c("east","north","west","south"))
     temp.rectangular <- FALSE
   } else if (
-    Building.Orientation > 270 &&
-    Building.Orientation < 360
+    building_orientation > 270 &&
+    building_orientation < 360
     ){
-    temp.b <- (Building.Orientation-270)/90
+    temp.b <- (building_orientation-270)/90
     new.Orientation <- data.frame(A=c("east","north","west","south"), 
                                   B=c("north","west","south","east"))
     temp.rectangular <- FALSE
@@ -527,17 +528,17 @@ getSolarRadiation <- function(Building.Orientation){
   #                   2    |     |
   #     (III)         x----|----3x         (IV)
   #                        |   
-  #                        |   1) Building.Orientation = 0 || 180 || 360
+  #                        |   1) building_orientation = 0 || 180 || 360
   #                        |      N-W-S-E
-  #                        |   2) Building.Orientation = 90 || 270
+  #                        |   2) building_orientation = 90 || 270
   #                        |      W-S-E-N
-  #                        |   3) Building.Orientation = 1   - 89  (I  )
+  #                        |   3) building_orientation = 1   - 89  (I  )
   #                      270°     NW-SW-SE-NE
-  #                        |   4) Building.Orientation = 91  - 179 (II )
+  #                        |   4) building_orientation = 91  - 179 (II )
   #                        v      SW-SE-NE-NW
-  #                     (1)S   5) Building.Orientation = 181 - 269 (III)
+  #                     (1)S   5) building_orientation = 181 - 269 (III)
   #                               SE-NE-NW-SW
-  #                            6) Building.Orientation = 271 - 359 (IV )
+  #                            6) building_orientation = 271 - 359 (IV )
   #                               NE-NW-SW-SE
   
   if (temp.rectangular == TRUE){

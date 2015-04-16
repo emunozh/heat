@@ -8,14 +8,14 @@ DIN V 18599
 }
 \usage{
 \method{heat}{default}(building = FALSE, climate = FALSE,
-  General.Name = "No Name", General.PlotOption = FALSE,
-  General.PlotName = "No Name", Building.Uwb = FALSE,
-  Building.Windows = FALSE, Building.UvalW = FALSE,
-  Building.UvalR = FALSE, Building.UvalWindow = FALSE,
-  Building.Dim = c(FALSE, FALSE), Building.h = FALSE,
-  Building.AirCRate = FALSE, Building.Ti = FALSE, Building.qi = FALSE,
-  Building.Orientation = FALSE, Building.StorageCapacity = FALSE,
-  Building.RoofSlope = FALSE, Output.Type = "Year")
+  general_name = "No Name", general_ploto = FALSE,
+  general_plotn = "No Name", building_uwb = FALSE,
+  building_windows = FALSE, building_uvalw = FALSE,
+  building_uvalr = FALSE, building_uvalwindow = FALSE,
+  building_dim = c(FALSE, FALSE), building_h = FALSE,
+  building_aircrate = FALSE, building_ti = FALSE, building_qi = FALSE,
+  building_orientation = FALSE, building_storagecapacity = FALSE,
+  building_roofslope = FALSE, output_type = "Year")
 }
 \arguments{
 \item{building}{(optional, default = FALSE) use a user define building
@@ -23,56 +23,56 @@ data file.}
 
 \item{climate}{(optional, default = FALSE) use a specific climate file.}
 
-\item{General.Name}{(optional, default = "No Name") if this value is not
+\item{general_name}{(optional, default = "No Name") if this value is not
 specifically define the function will load the values from the building data
 file.}
 
-\item{General.PlotOption}{(optional, default = FALSE)}
+\item{general_ploto}{(optional, default = FALSE)}
 
-\item{General.PlotName}{(optional, default="No Name")}
+\item{general_plotn}{(optional, default="No Name")}
 
-\item{Building.Uwb}{(optional, default = FALSE)}
+\item{building_uwb}{(optional, default = FALSE)}
 
-\item{Building.Windows}{(optional, default = FALSE)}
+\item{building_windows}{(optional, default = FALSE)}
 
-\item{Building.UvalW}{(optional, default = FALSE)}
+\item{building_uvalw}{(optional, default = FALSE)}
 
-\item{Building.UvalR}{(optional, default = FALSE)}
+\item{building_uvalr}{(optional, default = FALSE)}
 
-\item{Building.UvalWindow}{(optional, default = FALSE)}
+\item{building_uvalwindow}{(optional, default = FALSE)}
 
-\item{Building.Dim}{(optional, default = c(FALSE,FALSE))}
+\item{building_dim}{(optional, default = c(FALSE,FALSE))}
 
-\item{Building.h}{(optional, default = FALSE)}
+\item{building_h}{(optional, default = FALSE)}
 
-\item{Building.AirCRate}{(optional, default = FALSE)}
+\item{building_aircrate}{(optional, default = FALSE)}
 
-\item{Building.Ti}{(optional, default = FALSE)}
+\item{building_ti}{(optional, default = FALSE)}
 
-\item{Building.qi}{(optional, default = FALSE)}
+\item{building_qi}{(optional, default = FALSE)}
 
-\item{Building.Orientation}{(optional, default = FALSE)}
+\item{building_orientation}{(optional, default = FALSE)}
 
-\item{Building.StorageCapacity}{(optional, default = FALSE)}
+\item{building_storagecapacity}{(optional, default = FALSE)}
 
-\item{Building.RoofSlope}{(optional, default = FALSE)}
+\item{building_roofslope}{(optional, default = FALSE)}
 
-\item{Output.Type}{(optional, default = "Year")}
+\item{output_type}{(optional, default = "Year")}
 }
 \description{
 Perform a monthly heat balance and annual energy demand of buildings
 }
 \examples{
 # Use the default values to compute the heat demand of a building
-Climate.MonthsNames <- c("January","February","March","April",
+climate_month_names <- c("January","February","March","April",
                          "May","June","July","August",
                          "September","October","November","December")
 
-model <- heat(Building.Orientation = 0,
-              Output.Type = "Month")
+model <- heat(building_orientation = 0,
+              output_type = "Month")
 Qhm <- model$Qhm
 barplot(Qhm,
-        names.arg=Climate.MonthsNames,
+        names.arg=climate_month_names,
         main = "Monthly Heat Demand",
         ylab =  "head Demand [kWh]")
 
@@ -97,9 +97,9 @@ for (i in 1:Buildings.Number){
     UvalW <- U.Values[1,i]
     UvalR <- U.Values[2,i]
     UvalWindow <- U.Values[3,i]
-    temp.2 <- heat(Building.UvalW = UvalW,
-                    Building.UvalR = UvalR,
-                    Building.UvalWindow = UvalWindow)
+    temp.2 <- heat(building_uvalw = UvalW,
+                    building_uvalr = UvalR,
+                    building_uvalwindow = UvalWindow)
     Heat.Demand[i] <- temp.2$Qhs
 }
 
@@ -131,12 +131,12 @@ for (i in 1:Buildings.Number){
     AirCRate <- Param.Values[1,i]
     Ti <- Param.Values[2,i]
     qi <- Param.Values[3,i]
-    temp.2 <- heat(Building.AirCRate = AirCRate,
-                   Building.Ti = Ti,
-                   Building.qi = qi,
-                   Building.UvalW = UvalW,
-                   Building.UvalR = UvalR,
-                   Building.UvalWindow = UvalWindow)
+    temp.2 <- heat(building_aircrate = AirCRate,
+                   building_ti = Ti,
+                   building_qi = qi,
+                   building_uvalw = UvalW,
+                   building_uvalr = UvalR,
+                   building_uvalwindow = UvalWindow)
     Heat.Demand[i] <- temp.2$Qhs
 }
 
@@ -155,11 +155,11 @@ Heat.Demand = rep(0,length(iter))
 Heat.Gains.Solar = rep(0,length(iter))
 Irradiation.Sum = rep(0,length(iter))
 
-Building.Dim <- c(12,6)
+building_dim <- c(12,6)
 for (i in 1:length(iter)){
     BO <- iter[i]
-    temp.2 <- heat(Building.Orientation = BO,
-                   Building.Dim = Building.Dim)
+    temp.2 <- heat(building_orientation = BO,
+                   building_dim = building_dim)
     Heat.Demand[i] <- temp.2$Qhs
     Heat.Gains.Solar[i] <- temp.2$Ss
     Irradiation.Sum[i] <- temp.2$Ti
