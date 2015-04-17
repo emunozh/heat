@@ -26,9 +26,9 @@ heat <- function(x, ...) UseMethod("heat")
 #' @param building_uvalwindow (optional, default = FALSE)                   
 #' @param building_dim (optional, default = c(FALSE,FALSE))
 #' @param building_h (optional, default = FALSE)
-#' @param building_aircrate (optional, default = FALSE)
-#' @param building_ti (optional, default = FALSE)
-#' @param building_qi (optional, default = FALSE)
+#' @param user_aircrate (optional, default = FALSE)
+#' @param user_ti (optional, default = FALSE)
+#' @param user_qi (optional, default = FALSE)
 #' @param building_orientation (optional, default = FALSE)
 #' @param building_storagecapacity (optional, default = FALSE)
 #' @param building_roofslope (optional, default = FALSE)
@@ -102,9 +102,9 @@ heat <- function(x, ...) UseMethod("heat")
 #'     AirCRate <- Param.Values[1,i]
 #'     Ti <- Param.Values[2,i]
 #'     qi <- Param.Values[3,i]
-#'     temp.2 <- heat(building_aircrate = AirCRate, 
-#'                    building_ti = Ti, 
-#'                    building_qi = qi,
+#'     temp.2 <- heat(user_aircrate = AirCRate, 
+#'                    user_ti = Ti, 
+#'                    user_qi = qi,
 #'                    building_uvalw = UvalW, 
 #'                    building_uvalr = UvalR, 
 #'                    building_uvalwindow = UvalWindow)
@@ -163,9 +163,9 @@ heat.default <- function(
         building_uvalwindow = FALSE,                           
         building_dim = c(FALSE,FALSE), 
         building_h = FALSE, 
-        building_aircrate = FALSE, 
-        building_ti = FALSE, 
-        building_qi = FALSE, 
+        user_aircrate = FALSE, 
+        user_ti = FALSE, 
+        user_qi = FALSE, 
         building_orientation = FALSE, 
         building_storagecapacity = FALSE, 
         building_roofslope = FALSE,
@@ -185,9 +185,9 @@ heat.default <- function(
         building_uvalwindow = building_uvalwindow,                     
         building_dim = building_dim, 
         building_h = building_h, 
-        building_aircrate = building_aircrate, 
-        building_ti = building_ti, 
-        building_qi = building_qi, 
+        user_aircrate = user_aircrate, 
+        user_ti = user_ti, 
+        user_qi = user_qi, 
         building_orientation = building_orientation, 
         building_storagecapacity = building_storagecapacity, 
         building_roofslope = building_roofslope,
@@ -211,9 +211,9 @@ heatest <- function(
     building_uvalwindow = FALSE,                           
     building_dim = c(FALSE,FALSE), 
     building_h = FALSE, 
-    building_aircrate = FALSE, 
-    building_ti = FALSE, 
-    building_qi = FALSE, 
+    user_aircrate = FALSE, 
+    user_ti = FALSE, 
+    user_qi = FALSE, 
     building_orientation = FALSE, 
     building_storagecapacity = FALSE, 
     building_roofslope = FALSE,
@@ -268,9 +268,9 @@ heatest <- function(
     if (building_uvalwindow == FALSE)     {building_uvalwindow <- T.building_uvalwindow}                           
     if (building_dim[1]     == FALSE)     {building_dim        <- T.building_dim}
     if (building_h          == FALSE)     {building_h          <- T.building_h}
-    if (building_aircrate   == FALSE)     {building_aircrate   <- T.building_aircrate} 
-    if (building_ti         == FALSE)     {building_ti         <- T.building_ti}
-    if (building_qi         == FALSE)     {building_qi         <- T.building_qi}
+    if (user_aircrate   == FALSE)     {user_aircrate   <- T.user_aircrate} 
+    if (user_ti         == FALSE)     {user_ti         <- T.user_ti}
+    if (user_qi         == FALSE)     {user_qi         <- T.user_qi}
     if (building_orientation     == FALSE){building_orientation<- T.building_orientation} 
     if (building_storagecapacity == FALSE){building_storagecapacity<-T.building_storagecapacity}
     if (building_roofslope       == FALSE){building_roofslope  <- T.building_roofslope}
@@ -306,7 +306,7 @@ heatest <- function(
     ##internal gains Si
     # heated area An
     Building.An <- building_dim[1]*building_dim[2]*building_h/3
-    Heat.gains.Si <- building_qi * Building.An
+    Heat.gains.Si <- user_qi * Building.An
     
     ##monthly solar heat flows Ss
     # Ss(M) average monthly solar heat flow [W]
@@ -337,7 +337,7 @@ heatest <- function(
     Building.Ve <- building_dim[1]*building_dim[2]*building_h
     Building.V <- 0.8 * Building.Ve
     Constant.plCpl = 0.34
-    Heat.loss.Hv <- building_aircrate * Building.V * Constant.plCpl;
+    Heat.loss.Hv <- user_aircrate * Building.V * Constant.plCpl;
     
     ##thermal bridge addition
     # Uwb correction value for thermal bridges [W/m²K]
@@ -395,7 +395,7 @@ heatest <- function(
     # H(M) specific total heat loss (transmission and ventilation heat losses;HT+HV) [W/K]
     # Ti-Te(M) difference between internal and ambient temperature [K]
     # t(M) number of the days in a particular month [d/M]
-    Heat.loss.Ql <- 0.024 * Heat.loss.H * (building_ti - Climate.Te) * Climate.t
+    Heat.loss.Ql <- 0.024 * Heat.loss.H * (user_ti - Climate.Te) * Climate.t
     
     ##################
     ## Monthly heat demand Qh

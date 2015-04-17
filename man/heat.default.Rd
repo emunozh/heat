@@ -13,7 +13,7 @@ DIN V 18599
   building_windows = FALSE, building_uvalw = FALSE,
   building_uvalr = FALSE, building_uvalwindow = FALSE,
   building_dim = c(FALSE, FALSE), building_h = FALSE,
-  building_aircrate = FALSE, building_ti = FALSE, building_qi = FALSE,
+  user_aircrate = FALSE, user_ti = FALSE, user_qi = FALSE,
   building_orientation = FALSE, building_storagecapacity = FALSE,
   building_roofslope = FALSE, output_type = "Year")
 }
@@ -45,11 +45,11 @@ file.}
 
 \item{building_h}{(optional, default = FALSE)}
 
-\item{building_aircrate}{(optional, default = FALSE)}
+\item{user_aircrate}{(optional, default = FALSE)}
 
-\item{building_ti}{(optional, default = FALSE)}
+\item{user_ti}{(optional, default = FALSE)}
 
-\item{building_qi}{(optional, default = FALSE)}
+\item{user_qi}{(optional, default = FALSE)}
 
 \item{building_orientation}{(optional, default = FALSE)}
 
@@ -131,9 +131,9 @@ for (i in 1:Buildings.Number){
     AirCRate <- Param.Values[1,i]
     Ti <- Param.Values[2,i]
     qi <- Param.Values[3,i]
-    temp.2 <- heat(building_aircrate = AirCRate,
-                   building_ti = Ti,
-                   building_qi = qi,
+    temp.2 <- heat(user_aircrate = AirCRate,
+                   user_ti = Ti,
+                   user_qi = qi,
                    building_uvalw = UvalW,
                    building_uvalr = UvalR,
                    building_uvalwindow = UvalWindow)

@@ -1,7 +1,7 @@
 Package: heat
 Type: Package
 Title: Performa a heat balance calculation of residential buildings
-Version: 1.0
+Version: 1.1
 Date: 2015-01-12
 Author: M. Esteban Munoz H.
 Maintainer: Who to complain to <emunozh@gmail.com>
