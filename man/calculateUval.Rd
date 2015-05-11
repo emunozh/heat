@@ -14,19 +14,21 @@ calculateUval(Layers, k.t_e = -10, k.t_i = 20, k.h_e = 25, k.h_i = 8,
 \arguments{
 \item{Layers,}{building elements layers}
 
-\item{k.t_e}{(optional, default = -10) External temperature}
+\item{k.t_e}{(optional, default = -10) External air temperature [C]}
 
-\item{k.t_i}{(optional, default = 20) Internal temperature}
+\item{k.t_i}{(optional, default = 20) Internal air temperature [C]}
 
-\item{k.h_e}{(optional, default = 25)}
+\item{k.h_e}{(optional, default = 25) External heat transfer coefficient
+[m2K/W]}
 
-\item{k.h_i}{(optional, default = 8) Internal heat transfer coefficients [m2K/W]}
+\item{k.h_i}{(optional, default = 8) Internal heat transfer coefficient
+[m2K/W]}
 
-\item{k.rf_e}{(optional, default = 80)}
+\item{k.rf_e}{(optional, default = 80) External air moisture}
 
 \item{k.rf_i}{(optional, default  = 50) Internal air moisture}
 
-\item{k.p_e}{(optional, default = 1168)}
+\item{k.p_e}{(optional, default = 1168) External pressure [Pa]}
 
 \item{k.p_i}{(optional, default = 321) Internal pressure [Pa]}
 

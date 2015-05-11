@@ -154,13 +154,15 @@ getPressSat <- function(t){
 #' DIN 4108-3
 #'
 #' @param Layers, building elements layers
-#' @param k.t_e (optional, default = -10) External temperature
-#' @param k.t_i (optional, default = 20) Internal temperature
-#' @param k.h_e (optional, default = 25)  
-#' @param k.h_i (optional, default = 8) Internal heat transfer coefficients [m2K/W]
-#' @param k.rf_e (optional, default = 80)
+#' @param k.t_e (optional, default = -10) External air temperature [C]
+#' @param k.t_i (optional, default = 20) Internal air temperature [C]
+#' @param k.h_e (optional, default = 25) External heat transfer coefficient
+#' [m2K/W]
+#' @param k.h_i (optional, default = 8) Internal heat transfer coefficient
+#' [m2K/W]
+#' @param k.rf_e (optional, default = 80) External air moisture
 #' @param k.rf_i (optional, default  = 50) Internal air moisture
-#' @param k.p_e (optional, default = 1168)
+#' @param k.p_e (optional, default = 1168) External pressure [Pa]
 #' @param k.p_i (optional, default = 321) Internal pressure [Pa]
 #' @param plottemp (optional, default = FALSE) Store a temperature profile plot
 #' under "./FIGURES/[name]_pressure.pdf" and
