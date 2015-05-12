@@ -12,31 +12,44 @@
 #' @return Layers
 #' @examples
 #' Materials <- c(
-#'     "Mineralischer_Edelputz",
-#'     "Porensinterbeton_mit_Quarzsand_900",
-#'     "EPS_040_30",
-#'     "Holzwolle_Leichtbauplatten_Heraklith_Platten__Magnesia__390",
-#'     "Mineralischer_Armierungsputz"
+#'     "Mineralischer Edelputz",
+#'     "Porensinterbeton mit Quarzsand_900",
+#'     "EPS_040.30",
+#'     "Holzwolle-Leichtbauplatten_Heraklith-Platten (Magnesia)_390",
+#'     "Mineralischer Armierungsputz"
 #'     )
 #' 
 #' Thicknes = c(0.02,0.24,0.04,0.025,0.015)
 #' Layers <- getLayers(Materials, Thicknes)
 #' @author M. Estebna Munoz H.
-getLayers <- function(material, thickness, materialsData=FALSE){
+getLayers <- function(material, thickness,
+                      materialsData=FALSE, verbose=FALSE){
     # Load an external data file
-    if (!(materialsData)){
+    if(class(materialsData) == "data.frame"){
+        materials <- materialsData
+    }else{
         data(materials)
     }
 
     # Create empty vectors
-    Conductivity <- c()
-    Diffusion <- c()
+    Conductivity <- vector(length=length(material))
+    Diffusion <- vector(length=length(material))
 
     # Search layers in external data source 
     for(m in 1:length(material)){
         ind <- which(materials$name == material[m])
-        Conductivity[m] <- materials$ConducV[ind]
-        Diffusion[m] <- materials$DiffV[ind]
+
+        if(verbose){
+            cat(length(ind)==0, "\t", m, "\t",
+                ind, "\t", materials$ConducV[ind], "\n")
+        }
+        if(length(ind) == 0){
+            Conductivity[m] <- NaN
+            Diffusion[m] <- NaN
+        }else{
+            Conductivity[m] <- materials$ConducV[ind]
+            Diffusion[m] <- materials$DiffV[ind]
+        }
     }
 
     # Layers from Outside to Inside Layer
@@ -176,16 +189,18 @@ getPressSat <- function(t){
 #' @return Uval component U-value
 #' @examples
 #' # Reproduces the example 4 from DIN 4108-3
-#' Materials <- c(
-#'     "Mineralischer_Edelputz",
-#'     "Porensinterbeton_mit_Quarzsand_900",
-#'     "EPS_040_30",
-#'     "Holzwolle_Leichtbauplatten_Heraklith_Platten__Magnesia__390",
-#'     "Mineralischer_Armierungsputz"
-#'     )
+#' MaterialsToget <- c(
+#'   "Mineralischer Edelputz",
+#'   "Porensinterbeton mit Quarzsand_900",
+#'   "EPS_040.30",
+#'   "Holzwolle-Leichtbauplatten_Heraklith-Platten (Magnesia)_390",
+#'   "Mineralischer Armierungsputz"
+#'   )
 #' 
 #' Thicknes = c(0.02,0.24,0.04,0.025,0.015)
-#' Layers <- getLayers(Materials, Thicknes)
+#' 
+#' # Generate the Layers
+#' Layers <- getLayers(MaterialsToget, Thicknes)
 #' 
 #' uval <- calculateUval(Layers, k.t_e=-5,
 #'                       plottemp=TRUE, plotpress=TRUE,

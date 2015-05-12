@@ -4,7 +4,7 @@
 \alias{getLayers}
 \title{getLayers}
 \usage{
-getLayers(material, thickness, materialsData = FALSE)
+getLayers(material, thickness, materialsData = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{material,}{material names}
@@ -21,11 +21,11 @@ Function to generate layers based on an external data source
 }
 \examples{
 Materials <- c(
-    "Mineralischer_Edelputz",
-    "Porensinterbeton_mit_Quarzsand_900",
-    "EPS_040_30",
-    "Holzwolle_Leichtbauplatten_Heraklith_Platten__Magnesia__390",
-    "Mineralischer_Armierungsputz"
+    "Mineralischer Edelputz",
+    "Porensinterbeton mit Quarzsand_900",
+    "EPS_040.30",
+    "Holzwolle-Leichtbauplatten_Heraklith-Platten (Magnesia)_390",
+    "Mineralischer Armierungsputz"
     )
 
 Thicknes = c(0.02,0.24,0.04,0.025,0.015)

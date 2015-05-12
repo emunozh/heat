@@ -53,16 +53,18 @@ U-value calculator
 }
 \examples{
 # Reproduces the example 4 from DIN 4108-3
-Materials <- c(
-    "Mineralischer_Edelputz",
-    "Porensinterbeton_mit_Quarzsand_900",
-    "EPS_040_30",
-    "Holzwolle_Leichtbauplatten_Heraklith_Platten__Magnesia__390",
-    "Mineralischer_Armierungsputz"
-    )
+MaterialsToget <- c(
+  "Mineralischer Edelputz",
+  "Porensinterbeton mit Quarzsand_900",
+  "EPS_040.30",
+  "Holzwolle-Leichtbauplatten_Heraklith-Platten (Magnesia)_390",
+  "Mineralischer Armierungsputz"
+  )
 
 Thicknes = c(0.02,0.24,0.04,0.025,0.015)
-Layers <- getLayers(Materials, Thicknes)
+
+# Generate the Layers
+Layers <- getLayers(MaterialsToget, Thicknes)
 
 uval <- calculateUval(Layers, k.t_e=-5,
                       plottemp=TRUE, plotpress=TRUE,
