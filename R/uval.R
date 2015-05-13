@@ -38,6 +38,10 @@ getLayers <- function(material, thickness,
     # Search layers in external data source 
     for(m in 1:length(material)){
         ind <- which(materials$name == material[m])
+        if(length(ind) > 1){
+            cat("WARNING: found more than one matching material, I will use only the first match\n")
+            ind <- ind[1]
+        }
 
         if(verbose){
             cat(length(ind)==0, "\t", m, "\t",
