@@ -287,10 +287,10 @@ heatest <- function(
         #load("./Data/ClimateData")
         data(climate)
     }
-    # I 		  4x12 Double 	Isolation level orientation x months 	
+    # I 	4x12 Double 	Isolation level orientation x months 	
     # Month 	1x12 Double 	Month number				
-    # Te 		  1x12 Double 	outside temperature 		
-    # t 		  1x12 Double 	days of the month 		
+    # Te 	1x12 Double 	Outside temperature 		
+    # t 	 1x12 Double 	Days of the month 		
     
     ## output data:
     # Qhs  --> Specific heat demand
@@ -332,8 +332,8 @@ heatest <- function(
     
     ##ventilation loss Hv !! Only for natural ventilation
     # AirCRate = air change rate [h-1]
-    # V volume of air in heated building (according to EnEV it obtains V = 0,8* Ve)
-    # pL* CPL heat storage capacity of air = 0,34 [Wh/(m²K)]
+    # V volume of air in heated building (according to EnEV it obtains V = 0.8* Ve)
+    # pL* CPL heat storage capacity of air = 0.34 [Wh/(m²K)]
     Building.Ve <- building_dim[1]*building_dim[2]*building_h
     Building.V <- 0.8 * Building.Ve
     Constant.plCpl = 0.34
@@ -379,10 +379,10 @@ heatest <- function(
     # Hwb thermal bridges addition [W/K]
     # Htfh Specific transmission heat loss by building parts with integrated panel heating [W/K]
     # Ht = sum (U) * sum (A) + Hu + Ls + Hwb + Htfh
-    Heat.loss.Htu <-
-        (((2*Building.A.Wall.1*(1-building_windows) + 
-        2*Building.A.Wall.2*(1-building_windows))) * 
-        building_uvalw) + 
+    Heat.loss.Htu <- (
+        (2*Building.A.Wall.1*(1-building_windows) + 
+         2*Building.A.Wall.2*(1-building_windows)
+        ) * building_uvalw) + 
         (Building.A.Roof * building_uvalr) + 
         (Building.A.Window * building_uvalwindow)
     Heat.loss.Ht <- Heat.loss.Htu + Heat.loss.Hu + Heat.loss.Ls + Heat.loss.Hwb + Heat.loss.Htfh
@@ -391,7 +391,7 @@ heatest <- function(
     Heat.loss.H <- Heat.loss.Ht + Heat.loss.Hv
     
     ##Heat losses Ql
-    # 0,024 kWh = 1 Wd
+    # 0.024 kWh = 1 Wd
     # H(M) specific total heat loss (transmission and ventilation heat losses;HT+HV) [W/K]
     # Ti-Te(M) difference between internal and ambient temperature [K]
     # t(M) number of the days in a particular month [d/M]
@@ -411,9 +411,9 @@ heatest <- function(
     Heat.demand.Qhm <- rep(0,12)
     for (m in 1:12) {
         if (Heat.demand.y[m] == 1 ){
-        Heat.demand.n <- (Heat.demand.a / (Heat.demand.a +1))
+                Heat.demand.n <- (Heat.demand.a / (Heat.demand.a +1))
         } else {
-        Heat.demand.n <- (1-Heat.demand.y[m]^Heat.demand.a)/(1-Heat.demand.y[m]^(Heat.demand.a+1))
+                Heat.demand.n <- (1-Heat.demand.y[m]^Heat.demand.a)/(1-Heat.demand.y[m]^(Heat.demand.a+1))
         }
         Heat.demand.Qhm[m] <- Heat.loss.Ql[m] - Heat.demand.n * Heat.gains.Qg[m]
     }
