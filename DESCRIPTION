@@ -7,3 +7,4 @@ Author: M. Esteban Munoz H.
 Maintainer: Who to complain to <emunozh@gmail.com>
 Description: A package to estimate residential heat demand.
 License: GPL2
+RoxygenNote: 5.0.1
