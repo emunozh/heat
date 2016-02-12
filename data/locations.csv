@@ -1,0 +1,16 @@
+region,name,bl1,bl2,bl3,bl4,bl5,bl6,bl7,bl8
+1,Bremerhaven, 1, 4
+2,Rostock, 1, 13
+3,Hamburg, 1, 2, 3, 4, 5
+4,Potsdam, 3, 11, 12, 13, 14, 15
+5,Essen, 3, 5, 7
+6,Bad Marienberg, 3, 5, 6, 7, 8, 9, 10, 15
+7,Kassel, 3, 6, 7, 10, 16
+8,Braunlage, 8
+9,Chemnitz, 14, 16
+10,Hof, 6, 9, 14, 16
+11,Fichtelberg, 8, 9, 14
+12,Mannheim, 6, 7, 8
+13,Passau, 8, 9
+14,Stötten, 8
+15,Garmisch-Partenkirchen, 9

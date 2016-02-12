@@ -11,7 +11,7 @@
 #' @param P geometry perimeter
 #' @param tl (optional, default = 0.1) tolerance level for the approximation
 #' @return c(l, w)
-#' @author M. Estebna Munoz H.
+#' @author M. Esteban Munoz H.
 getLW <- function(A, P, tl=0.1){
     w.p = P/4
     l.p = P/4

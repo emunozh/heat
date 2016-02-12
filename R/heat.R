@@ -13,7 +13,7 @@ heat <- function(x, ...) UseMethod("heat")
 #'
 #' @param building (optional, default = FALSE) use a user define building
 #' data file. 
-#' @param climate (optional, default = FALSE) use a specific climate file.
+#' @param climate (optional, default = Hamburg) use a specific climate file.
 #' @param general_name (optional, default = "No Name") if this value is not
 #' specifically define the function will load the values from the building data
 #' file.
@@ -152,7 +152,7 @@ heat <- function(x, ...) UseMethod("heat")
 #TODO: proof data input
 heat.default <- function(
         building = FALSE,
-        climate = FALSE,
+        climate = "Hamburg",
         general_name = "No Name", 
         general_ploto = FALSE, 
         general_plotn = "No Name",
@@ -200,7 +200,7 @@ heat.default <- function(
 
 heatest <- function(
     building = FALSE,
-    climate = FALSE,
+    climate = "Hamburg",
     general_name = "No Name", 
     general_ploto = FALSE, 
     general_plotn = "No Name",
@@ -259,8 +259,8 @@ heatest <- function(
     
     ## Check input data
     if (general_name        == "No Name") {general_name        <- T.general_name} 
-    if (general_ploto  == FALSE)     {general_ploto  <- T.general_ploto} 
-    if (general_plotn    == "No Name") {general_plotn    <- T.general_plotn}
+    if (general_ploto       == FALSE)     {general_ploto       <- T.general_ploto} 
+    if (general_plotn       == "No Name") {general_plotn       <- T.general_plotn}
     if (building_uwb        == FALSE)     {building_uwb        <- T.building_uwb}
     if (building_windows    == FALSE)     {building_windows    <- T.building_windows}                           
     if (building_uvalw      == FALSE)     {building_uvalw      <- T.building_uvalw}
@@ -268,9 +268,9 @@ heatest <- function(
     if (building_uvalwindow == FALSE)     {building_uvalwindow <- T.building_uvalwindow}                           
     if (building_dim[1]     == FALSE)     {building_dim        <- T.building_dim}
     if (building_h          == FALSE)     {building_h          <- T.building_h}
-    if (user_aircrate   == FALSE)     {user_aircrate   <- T.user_aircrate} 
-    if (user_ti         == FALSE)     {user_ti         <- T.user_ti}
-    if (user_qi         == FALSE)     {user_qi         <- T.user_qi}
+    if (user_aircrate       == FALSE)     {user_aircrate   <- T.user_aircrate} 
+    if (user_ti             == FALSE)     {user_ti         <- T.user_ti}
+    if (user_qi             == FALSE)     {user_qi         <- T.user_qi}
     if (building_orientation     == FALSE){building_orientation<- T.building_orientation} 
     if (building_storagecapacity == FALSE){building_storagecapacity<-T.building_storagecapacity}
     if (building_roofslope       == FALSE){building_roofslope  <- T.building_roofslope}
@@ -280,15 +280,18 @@ heatest <- function(
     ##################
     ##Climate:
     # Separate module for climate calculation see "Data/ClimateModule.r"
-    if (climate){
-        load(climate)
+    data_list <- try(unlist(data(package="heat"))) 
+    data_list <- data_list[data_list != ""]
+    data_list <- data_list[data_list != "heat"]
+    data_list <- data_list[data_list != "Data sets"]
+    data_list <- data_list[data_list != "/usr/lib/R/library"]
+    if (paste("Climate.I (",climate,")", sep="") %in% data_list){
+        data(list=climate, package="heat")
     }else{
-        #TODO: use internal data
-        #load("./Data/ClimateData")
-        data(climate)
+        load(climate)
     }
     # I 		  4x12 Double 	Isolation level orientation x months 	
-    # Month 	1x12 Double 	Month number				
+    # Month 	  1x12 Double 	Month number				
     # Te 		  1x12 Double 	outside temperature 		
     # t 		  1x12 Double 	days of the month 		
     
@@ -314,10 +317,10 @@ heatest <- function(
     # A(s,j) actual collector surface [m²]
     # J orientation (direction and down-grade to vertical)
     Heat.gains.Ss <-
-    Climate.I$north*(building_dim[1]*building_h*building_windows) +
-    Climate.I$west *(building_dim[2]*building_h*building_windows) +
-    Climate.I$south*(building_dim[1]*building_h*building_windows) +
-    Climate.I$east *(building_dim[2]*building_h*building_windows)
+    Climate.I[,"north"]*(building_dim[1]*building_h*building_windows) +
+    Climate.I[,"west"] *(building_dim[2]*building_h*building_windows) +
+    Climate.I[,"south"]*(building_dim[1]*building_h*building_windows) +
+    Climate.I[,"east"] *(building_dim[2]*building_h*building_windows)
     
     ##Heat gains Qg
     #0,024 kWh = 1 Wd
