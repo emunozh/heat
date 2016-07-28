@@ -3,7 +3,8 @@
 
 heat <- function(x, ...) UseMethod("heat")
 
-#TODO: Prof source
+#TODO: Proof source
+
 #' @title heat 
 #'
 #' @description
@@ -14,6 +15,8 @@ heat <- function(x, ...) UseMethod("heat")
 #' @param building (optional, default = FALSE) use a user define building
 #' data file. 
 #' @param climate (optional, default = Hamburg) use a specific climate file.
+#' @param fp (optional, default = Gas) primary energy factor and CO2-eq
+#' emissions factor. 
 #' @param general_name (optional, default = "No Name") if this value is not
 #' specifically define the function will load the values from the building data
 #' file.
@@ -153,6 +156,7 @@ heat <- function(x, ...) UseMethod("heat")
 heat.default <- function(
         building = FALSE,
         climate = "Hamburg",
+        fp = "Gas",
         general_name = "No Name", 
         general_ploto = FALSE, 
         general_plotn = "No Name",
@@ -175,6 +179,7 @@ heat.default <- function(
     model <- heatest(
         building = building,
         climate = climate,
+        fp = fp,
         general_name = general_name, 
         general_ploto = general_ploto, 
         general_plotn = general_plotn,
@@ -201,6 +206,7 @@ heat.default <- function(
 heatest <- function(
     building             = FALSE,
     climate              = FALSE,
+    fp                   = FALSE,
     general_name         = "No Name", 
     general_ploto        = FALSE, 
     general_plotn        = "No Name",
@@ -227,24 +233,24 @@ heatest <- function(
     # Separate module for building data see "Data/GeometryModule.r"
     # (A) General
     #------------------------------------------------------------
-    # Name              Char   	    Name of the typ + F
-    # PlotOption 	Boolean     Plot figure?
-    # PlotName          Name        Name to save plot
+    # Name              Char          Name of the typ + F
+    # PlotOption        Boolean       Plot figure?
+    # PlotName          Name          Name to save plot
     # (B) Building data:
     #------------------------------------------------------------------------------
-    # Uwb               Double		  correction value for thermal bridges
+    # Uwb               Double		  Correction value for thermal bridges
     # Windows           Double 		  Percentage of facade with windows      
     # UvalW             Double 		  U-value for walls                 
     # UvalR             Double 		  U-value for Roof                    
-    # UvalWindow 	Double 		  U-value for Window                   
+    # UvalWindow        Double        U-value for Window                   
     # Dim               1x2 Double 	  Building dimensions L x B	
     # h                 Double 		  Height of Building			
-    # AirCRate          Double 		  air change rate [h-1] 		
+    # AirCRate          Double 		  Air change rate [h-1] 		
     # Ti                1x12 Double	  Ti(Theta i) internal temperature 
-    # qi                Double 		  internal heat emissions.		
-    # Ob                Double 		  Building orientation               
-    # RoofSlope         Double 		  Slope of building roof              
-    # StorageCapacity   Double            Storage capacity of Building 		
+    # qi                Double 		  Internal heat emissions.		
+    # Ob                Double        Building orientation               
+    # RoofSlope         Double        Slope of building roof              
+    # StorageCapacity   Double        Storage capacity of Building 		
     if (building){
         load(building)
     }else{
@@ -287,9 +293,17 @@ heatest <- function(
     data_list <- data_list[data_list != "/usr/lib/R/library"]
     if (paste("Climate.I (",climate,")", sep="") %in% data_list){
         data(list=climate, package="heat")
-    }else{
+    } else {
         load(climate)
     }
+    ## Primary and CO2-eq factors
+    if ("Fp" %in% data_list){
+        data(list="Fp", package="heat")
+    } else {
+        load(fp)
+    }
+    factor.fp  <- Fp[[fp]][1]
+    factor.CO2 <- Fp[[fp]][2]
     # I 		  4x12 Double 	Isolation level orientation x months 	
     # Month 	  1x12 Double 	Month number				
     # Te 		  1x12 Double 	outside temperature 		
@@ -426,7 +440,7 @@ heatest <- function(
     Heat.demand.Qh <- sum(Heat.demand.Qhm)
     
     ## Specific heat demand [kWh/sqm a] Qhs 
-    #  and specific transmission losses Hts [W/sqm K]
+    # and specific transmission losses Hts [W/sqm K]
     Heat.demand.Qhs = Heat.demand.Qh / Building.An
     Heat.demand.Hts = Heat.loss.Ht / Building.An
 
@@ -434,18 +448,32 @@ heatest <- function(
     Heat.gains.Ss.sum <- sum(Heat.gains.Ss)
     ## Total Irradiation
     Total.Irradiation <- sum(Climate.I)
+
+    ## Primary energy demand
+    Heat.demand.Qpm <- Heat.demand.Qhm * factor.fp #month
+    Heat.demand.Qp  <- Heat.demand.Qh  * factor.fp #year
+
+    ## CO2 emissions
+    CO2m <- Heat.demad.Qpm * factor.CO2 #month
+    CO2  <- Heat.demad.Qp  * factor.CO2 #year
     
     ## Result
     #TODO: format output as list
     if (output_type == "Year"){
         result = data.frame(
-        Ti = Total.Irradiation,
-        Ss = Heat.gains.Ss.sum, 
-        Qhs = Heat.demand.Qhs, 
-        Hts = Heat.demand.Hts)
+            Ti  = Total.Irradiation,
+            Ss  = Heat.gains.Ss.sum, 
+            Qhs = Heat.demand.Qhs, 
+            Hts = Heat.demand.Hts,
+            Qp  = Heat.demand.Qp,
+            CO2 = CO2
+            )
     } else if (output_type == "Month"){
         result = data.frame(
-        Qhm = Heat.demand.Qhm)
+            Qhm = Heat.demand.Qhm,
+            Qp  = Heat.demand.Qpm,
+            CO2 = CO2m
+            )
     }
     return(result)
     }
