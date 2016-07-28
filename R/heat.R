@@ -55,15 +55,15 @@ heat <- function(x, ...) UseMethod("heat")
 #' Buildings.Number <- 9
 #' 
 #' U.Values <- matrix(c(
-#'     1.3,    1.0,	3.0,    # 01
-#'     1.2,	0.9,	2.7,    # 02
-#'     1.1,	0.8,	2.7,    # 03
-#'     1.0,	0.7,	2.7,    # 04
-#'     0.9,	0.6,	2.4,    # 05
-#'     0.8,	0.5,	2.1,    # 06
-#'     0.6,	0.4,	1.9,    # 07
-#'     0.5,	0.3,	1.6,    # 08
-#'     0.4,	0.2,	1.6),   # 09
+#'     1.3, 1.0, 3.0,   # 01
+#'     1.2, 0.9, 2.7,   # 02
+#'     1.1, 0.8, 2.7,   # 03
+#'     1.0, 0.7, 2.7,   # 04
+#'     0.9, 0.6, 2.4,   # 05
+#'     0.8, 0.5, 2.1,   # 06
+#'     0.6, 0.4, 1.9,   # 07
+#'     0.5, 0.3, 1.6,   # 08
+#'     0.4, 0.2, 1.6),  # 09
 #'     3,Buildings.Number)
 #' 
 #' Heat.Demand <- rep(0,Buildings.Number)
@@ -238,19 +238,19 @@ heatest <- function(
     # PlotName          Name          Name to save plot
     # (B) Building data:
     #------------------------------------------------------------------------------
-    # Uwb               Double		  Correction value for thermal bridges
-    # Windows           Double 		  Percentage of facade with windows      
-    # UvalW             Double 		  U-value for walls                 
-    # UvalR             Double 		  U-value for Roof                    
+    # Uwb               Double        Correction value for thermal bridges
+    # Windows           Double        Percentage of facade with windows      
+    # UvalW             Double        U-value for walls                 
+    # UvalR             Double        U-value for Roof                    
     # UvalWindow        Double        U-value for Window                   
-    # Dim               1x2 Double 	  Building dimensions L x B	
-    # h                 Double 		  Height of Building			
-    # AirCRate          Double 		  Air change rate [h-1] 		
-    # Ti                1x12 Double	  Ti(Theta i) internal temperature 
-    # qi                Double 		  Internal heat emissions.		
+    # Dim               1x2 Double    Building dimensions L x B 
+    # h                 Double        Height of Building            
+    # AirCRate          Double        Air change rate [h-1]         
+    # Ti                1x12 Double   Ti(Theta i) internal temperature 
+    # qi                Double        Internal heat emissions.      
     # Ob                Double        Building orientation               
     # RoofSlope         Double        Slope of building roof              
-    # StorageCapacity   Double        Storage capacity of Building 		
+    # StorageCapacity   Double        Storage capacity of Building      
     if (building){
         load(building)
     }else{
@@ -304,10 +304,10 @@ heatest <- function(
     }
     factor.fp  <- Fp[[fp]][1]
     factor.CO2 <- Fp[[fp]][2]
-    # I 		  4x12 Double 	Isolation level orientation x months 	
-    # Month 	  1x12 Double 	Month number				
-    # Te 		  1x12 Double 	outside temperature 		
-    # t 		  1x12 Double 	days of the month 		
+    # I           4x12 Double   Isolation level orientation x months    
+    # Month       1x12 Double   Month number                
+    # Te          1x12 Double   outside temperature         
+    # t           1x12 Double   days of the month       
     
     ## output data:
     # Qhs  --> Specific heat demand
