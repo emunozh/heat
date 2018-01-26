@@ -454,8 +454,8 @@ heatest <- function(
     Heat.demand.Qp  <- Heat.demand.Qh  * factor.fp #year
 
     ## CO2 emissions
-    CO2m <- Heat.demad.Qpm * factor.CO2 #month
-    CO2  <- Heat.demad.Qp  * factor.CO2 #year
+    CO2m <- Heat.demand.Qpm * factor.CO2 * 3.6e-9 #month
+    CO2  <- Heat.demand.Qp  * factor.CO2 * 3.6e-9 #year
     
     ## Result
     #TODO: format output as list
@@ -471,7 +471,7 @@ heatest <- function(
     } else if (output_type == "Month"){
         result = data.frame(
             Qhm = Heat.demand.Qhm,
-            Qp  = Heat.demand.Qpm,
+            Qpm = Heat.demand.Qpm,
             CO2 = CO2m
             )
     }
